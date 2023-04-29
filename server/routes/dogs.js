@@ -1,4 +1,4 @@
-// ------------------------------  SERVER DATA ------------------------------  
+// ------------------------------  SERVER DATA ------------------------------
 
 let nextDogId = 1;
 function getNewDogId() {
@@ -18,7 +18,7 @@ const dogs = [
   }
 ];
 
-// ------------------------------  MIDDLEWARES ------------------------------ 
+// ------------------------------  MIDDLEWARES ------------------------------
 
 const validateDogInfo = (req, res, next) => {
   if (!req.body || !req.body.name) {
@@ -40,7 +40,7 @@ const validateDogId = (req, res, next) => {
   next();
 }
 
-// ------------------------------  ROUTE HANDLERS ------------------------------  
+// ------------------------------  ROUTE HANDLERS ------------------------------
 
 // GET /dogs
 const getAllDogs = (req, res) => {
@@ -82,6 +82,28 @@ const deleteDog = (req, res) => {
   res.json({ message: "success" });
 };
 
-// ------------------------------  ROUTER ------------------------------  
+// const { get } = require('cypress/types/jquery');
+// ------------------------------  ROUTER ------------------------------
 
-// Your code here
+
+
+const express = require('express')
+
+
+let router = express.Router();
+
+// router.use(validateDogInfo)
+// router.use(validateDogId)
+
+router.get("/", getAllDogs)
+
+router.get("/:dogId", validateDogId, getDogById)
+
+router.post('/', validateDogInfo, createDog)
+
+router.put('/:dogId', validateDogId, updateDog)
+
+router.delete('/:dogId' ,validateDogId, deleteDog)
+router.use("/:dogid/foods",  validateDogId, require('./dog-foods'))
+
+module.exports = router;
